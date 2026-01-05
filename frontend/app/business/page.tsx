@@ -93,10 +93,10 @@ export default function BusinessPage() {
       <Header />
       
       <main>
-        <section className="relative h-[600px] bg-foreground overflow-hidden">
+        <section className="relative h-[600px] bg-gradient-to-r from-accent to-secondary overflow-hidden">
           <Image
             src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80"
-            alt="Modern Office Space"
+            alt="UFLIX for Business"
             fill
             className="object-cover opacity-40"
           />

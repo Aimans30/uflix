@@ -7,6 +7,7 @@ import { useWishlist } from '@/contexts/WishlistContext';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
 
@@ -76,19 +77,77 @@ export default function Header() {
 
         <nav className="hidden lg:flex items-center justify-center space-x-8 py-4 border-t border-border">
           <Link href="/shop" className="text-sm font-medium hover:text-accent transition-colors">
-            Shop All
+            Shop
           </Link>
           <Link href="/categories" className="text-sm font-medium hover:text-accent transition-colors">
             Categories
+          </Link>
+          
+          <div 
+            className="relative"
+            onMouseEnter={() => setIsCompanyOpen(true)}
+            onMouseLeave={() => setIsCompanyOpen(false)}
+          >
+            <button className="text-sm font-medium hover:text-accent transition-colors flex items-center gap-1">
+              Company
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            
+            {isCompanyOpen && (
+              <div className="absolute top-full left-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-border py-4 px-6">
+                <div className="space-y-4">
+                  <div>
+                    <Link href="/about" className="block font-semibold text-accent hover:text-secondary mb-1">
+                      About UFLIX
+                    </Link>
+                    <p className="text-xs text-neutral-dark mb-2">Leading manufacturer of furniture and metal fabrication solutions</p>
+                    <Link href="/about" className="text-xs text-accent hover:underline">Read more →</Link>
+                  </div>
+                  
+                  <div className="border-t border-border pt-3">
+                    <Link href="/manufacturing" className="block font-semibold text-accent hover:text-secondary mb-1">
+                      Manufacturing
+                    </Link>
+                    <p className="text-xs text-neutral-dark mb-2">50,000+ sq ft facility with advanced CNC machinery</p>
+                    <Link href="/manufacturing" className="text-xs text-accent hover:underline">Read more →</Link>
+                  </div>
+                  
+                  <div className="border-t border-border pt-3">
+                    <Link href="/quality" className="block font-semibold text-accent hover:text-secondary mb-1">
+                      Quality & Certifications
+                    </Link>
+                    <p className="text-xs text-neutral-dark mb-2">ISO 9001:2015 certified with 5-year warranty</p>
+                    <Link href="/quality" className="text-xs text-accent hover:underline">Read more →</Link>
+                  </div>
+                  
+                  <div className="border-t border-border pt-3">
+                    <Link href="/sustainability" className="block font-semibold text-accent hover:text-secondary mb-1">
+                      Sustainability
+                    </Link>
+                    <p className="text-xs text-neutral-dark mb-2">Eco-friendly practices with 85% waste recycling</p>
+                    <Link href="/sustainability" className="text-xs text-accent hover:underline">Read more →</Link>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <Link href="/shop-fittings" className="text-sm font-medium hover:text-accent transition-colors">
+            Shop Fittings
+          </Link>
+          <Link href="/industries" className="text-sm font-medium hover:text-accent transition-colors">
+            Industries
+          </Link>
+          <Link href="/projects" className="text-sm font-medium hover:text-accent transition-colors">
+            Projects
           </Link>
           <Link href="/business" className="text-sm font-medium hover:text-accent transition-colors">
             For Business
           </Link>
           <Link href="/shops" className="text-sm font-medium hover:text-accent transition-colors">
             Our Shops
-          </Link>
-          <Link href="/about" className="text-sm font-medium hover:text-accent transition-colors">
-            About Us
           </Link>
           <Link href="/contact" className="text-sm font-medium hover:text-accent transition-colors">
             Contact
