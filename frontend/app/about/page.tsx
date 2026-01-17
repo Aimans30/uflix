@@ -30,10 +30,10 @@ export default function AboutPage() {
               <div>
                 <h2 className="text-4xl font-bold mb-6">Who We Are</h2>
                 <p className="text-lg text-neutral-dark mb-4 leading-relaxed">
-                  UFLIX is a design-driven furniture manufacturing and metal fabrication company specializing in high-quality, customized solutions for modern commercial and institutional spaces. With world-class infrastructure and advanced CNC machinery, we deliver end-to-end project execution from concept to installation.
+                  We create sophisticated solutions for contemporary living and working. Every product is thoughtfully designed to enhance comfort, functionality, and everyday ease, allowing your space to perform effortlessly around you. Crafted with precision and care, our high-quality pieces are available in an array of finishes and configurations, offering a tailored experience that reflects your individual needs.
                 </p>
                 <p className="text-lg text-neutral-dark mb-4 leading-relaxed">
-                  Our in-house manufacturing capabilities span precision metal fabrication, wooden furniture production, powder coating, and turnkey interior fit-outs. We serve retail stores, corporate offices, educational institutions, healthcare facilities, and industrial warehouses across Pan India and the Middle East.
+                  With sustainability embedded from concept to completion, we deliver enduring design that is as responsible as it is refined. Our in-house manufacturing capabilities span precision metal fabrication, wooden furniture production, powder coating, and turnkey interior fit-outs. We serve retail stores, corporate offices, educational institutions, healthcare facilities, and industrial warehouses across Pan India and the Middle East.
                 </p>
                 <p className="text-lg text-neutral-dark leading-relaxed">
                   From government institutions and AIIMS hospitals to international retail chains and large infrastructure projects, UFLIX has established itself as a trusted partner for organizations that demand quality, reliability, and design excellence.
@@ -124,7 +124,7 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
                 <p className="text-neutral-dark leading-relaxed">
-                  To be recognized as the most trusted and design-driven furniture manufacturing partner across India and the Middle East, known for transforming workspaces and commercial environments through quality, innovation, and reliability.
+                  To be globally recognized as the most trusted, design-led furniture manufacturing partner, renowned for elevating workspaces and commercial environments through exceptional quality, innovative thinking, and unwavering reliability.
                 </p>
               </div>
             </div>
@@ -177,16 +177,11 @@ export default function AboutPage() {
               <h2 className="text-4xl font-bold mb-4">UFLIX By The Numbers</h2>
               <p className="text-lg text-neutral-dark">Proven track record of excellence and scale</p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <div className="text-center p-6 bg-neutral-light rounded-xl">
                 <div className="text-5xl font-bold text-accent mb-3">1000+</div>
                 <div className="text-lg font-semibold mb-1">Projects Delivered</div>
                 <div className="text-sm text-neutral-dark">Across India & Middle East</div>
-              </div>
-              <div className="text-center p-6 bg-neutral-light rounded-xl">
-                <div className="text-5xl font-bold text-accent mb-3">50,000+</div>
-                <div className="text-lg font-semibold mb-1">Sq Ft Manufacturing</div>
-                <div className="text-sm text-neutral-dark">World-class infrastructure</div>
               </div>
               <div className="text-center p-6 bg-neutral-light rounded-xl">
                 <div className="text-5xl font-bold text-accent mb-3">200+</div>

@@ -3,6 +3,8 @@ import { Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
+import { ClerkProvider } from '@clerk/nextjs';
+import UserSync from '@/components/UserSync';
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -33,14 +35,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${playfair.variable} ${montserrat.variable} antialiased`}>
-        <CartProvider>
-          <WishlistProvider>
-            {children}
-          </WishlistProvider>
-        </CartProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${playfair.variable} ${montserrat.variable} antialiased`}>
+          <UserSync />
+          <CartProvider>
+            <WishlistProvider>
+              {children}
+            </WishlistProvider>
+          </CartProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

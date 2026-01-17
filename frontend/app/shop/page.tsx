@@ -1,26 +1,33 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Breadcrumb from '@/components/Breadcrumb';
 import ProductCard from '@/components/ProductCard';
 import FilterSidebar from '@/components/FilterSidebar';
+import { getProducts } from '@/services/productService';
 
 export default function ShopPage() {
   const [sortBy, setSortBy] = useState('featured');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const products = [
-    { id: 1, name: 'Genova Leatherette Sofa in Tan Color', price: '₹24,900', originalPrice: '₹103,000', discount: '76%', image: 'https://images.unsplash.com/photo-1550254478-ead40cc54513?w=600&q=80', category: 'Living Room' },
-    { id: 2, name: 'Garcia Fabric Two Seater Sofa', price: '₹23,900', originalPrice: '₹59,900', discount: '60%', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80', category: 'Living Room' },
-    { id: 3, name: 'Bradford Fabric Two Seater Sofa', price: '₹29,900', originalPrice: '₹97,900', discount: '69%', image: 'https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=600&q=80', category: 'Living Room' },
-    { id: 4, name: 'Hazel Fabric 3 Seater Sofa', price: '₹58,000', originalPrice: '₹98,000', discount: '41%', image: 'https://images.unsplash.com/photo-1505693314120-0d443867891c?w=600&q=80', category: 'Living Room' },
-    { id: 5, name: 'Alexa Half Leather Single Seater', price: '₹12,499', originalPrice: '₹48,000', discount: '73%', image: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=600&q=80', category: 'Living Room' },
-    { id: 6, name: 'Bookshelf Unit', price: '₹15,999', originalPrice: '₹32,000', discount: '50%', image: 'https://images.unsplash.com/photo-1594620302200-9a762244a156?w=600&q=80', category: 'Storage' },
-    { id: 7, name: 'Garcia Fabric Three Seater Sofa', price: '₹31,900', originalPrice: '₹74,900', discount: '58%', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80', category: 'Living Room' },
-    { id: 8, name: 'Riga Fabric 1 Seater Sofa', price: '₹28,999', originalPrice: '₹65,000', discount: '76%', image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600&q=80', category: 'Living Room' },
-  ];
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const data = await getProducts({ limit: 100 });
+      setProducts(data.data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -71,11 +78,25 @@ export default function ShopPage() {
           </aside>
 
           <div className="lg:col-span-3">
-            <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-6`}>
-              {products.map((product) => (
-                <ProductCard key={product.id} {...product} />
-              ))}
-            </div>
+            {loading ? (
+              <div className="flex justify-center items-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
+              </div>
+            ) : products.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="text-gray-400 text-6xl mb-4">
+                  📦
+                </div>
+                <h3 className="text-xl font-semibold text-gray-600 mb-2">No Products Available</h3>
+                <p className="text-gray-500">We're adding new products. Check back soon!</p>
+              </div>
+            ) : (
+              <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'} gap-6`}>
+                {products.map((product) => (
+                  <ProductCard key={product._id} {...product} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </main>

@@ -1,20 +1,47 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
+import { useUser } from '@clerk/nextjs';
+import { getCurrentUser } from '@/services/authService';
 
 export default function Header() {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'homes' | 'business'>('homes');
+  const [userRole, setUserRole] = useState<string | null>(null);
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
+  const { isSignedIn, user } = useUser();
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (isSignedIn) {
+        try {
+          const userData = await getCurrentUser();
+          setUserRole(userData.data?.role || 'user');
+        } catch (error) {
+          console.error('Error fetching user role:', error);
+          setUserRole('user');
+        }
+      }
+    };
+
+    fetchUserRole();
+  }, [isSignedIn]);
+  
+  // Text color based on page
+  const textColor = isHomePage ? 'text-white' : 'text-gray-900';
+  const hoverColor = 'hover:text-accent';
 
   return (
-    <header className="bg-transparent absolute top-0 left-0 right-0 z-50">
+    <header className="bg-transparent absolute top-0 left-0 right-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Left: For Homes/For Businesses Tabs - Hidden on mobile */}
@@ -50,7 +77,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center space-x-6">
             <button 
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="p-2 text-white hover:text-accent transition-colors" 
+              className={`p-2 ${textColor} ${hoverColor} transition-colors`}
               aria-label="Search"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,13 +85,17 @@ export default function Header() {
               </svg>
             </button>
 
-            <Link href="/login" className="p-2 text-white hover:text-accent transition-colors" aria-label="Account">
+            <Link 
+              href={isSignedIn ? (userRole === 'admin' ? "/admin" : "/profile") : "/sign-in"} 
+              className={`p-2 ${textColor} ${hoverColor} transition-colors`} 
+              aria-label="Account"
+            >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </Link>
 
-            <Link href="/wishlist" className="p-2 text-white hover:text-accent transition-colors relative" aria-label="Wishlist">
+            <Link href="/wishlist" className={`p-2 ${textColor} ${hoverColor} transition-colors relative`} aria-label="Wishlist">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
@@ -75,7 +106,7 @@ export default function Header() {
               )}
             </Link>
 
-            <Link href="/cart" className="p-2 text-white hover:text-accent transition-colors relative" aria-label="Cart">
+            <Link href="/cart" className={`p-2 ${textColor} ${hoverColor} transition-colors relative`} aria-label="Cart">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
@@ -88,7 +119,7 @@ export default function Header() {
           </div>
 
           <button
-            className="lg:hidden p-2 text-white"
+            className={`lg:hidden p-2 ${textColor}`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -123,11 +154,11 @@ export default function Header() {
         )}
 
 
-        <nav className="hidden lg:flex items-center justify-center space-x-8 py-4 border-t border-white/20">
-          <Link href="/shop" className="text-sm font-medium text-white hover:text-accent transition-colors">
+        <nav className={`hidden lg:flex items-center justify-center space-x-8 py-4 border-t ${isHomePage ? 'border-white/20' : 'border-gray-200'}`}>
+          <Link href="/shop" className={`text-sm font-medium ${textColor} ${hoverColor} transition-colors`}>
             Shop
           </Link>
-          <Link href="/categories" className="text-sm font-medium text-white hover:text-accent transition-colors">
+          <Link href="/categories" className={`text-sm font-medium ${textColor} ${hoverColor} transition-colors`}>
             Categories
           </Link>
           
@@ -136,7 +167,7 @@ export default function Header() {
             onMouseEnter={() => setIsCompanyOpen(true)}
             onMouseLeave={() => setIsCompanyOpen(false)}
           >
-            <button className="text-sm font-medium text-white hover:text-accent transition-colors flex items-center gap-1">
+            <button className={`text-sm font-medium ${textColor} ${hoverColor} transition-colors flex items-center gap-1`}>
               Company
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -182,16 +213,16 @@ export default function Header() {
             )}
           </div>
 
-          <Link href="/shop-fittings" className="text-sm font-medium text-white hover:text-accent transition-colors">
+          <Link href="/shop-fittings" className={`text-sm font-medium ${textColor} ${hoverColor} transition-colors`}>
             Shop Fittings
           </Link>
-          <Link href="/projects" className="text-sm font-medium text-white hover:text-accent transition-colors">
+          <Link href="/projects" className={`text-sm font-medium ${textColor} ${hoverColor} transition-colors`}>
             Projects
           </Link>
-          <Link href="/business" className="text-sm font-medium text-white hover:text-accent transition-colors">
+          <Link href="/business" className={`text-sm font-medium ${textColor} ${hoverColor} transition-colors`}>
             For Business
           </Link>
-          <Link href="/contact" className="text-sm font-medium text-white hover:text-accent transition-colors">
+          <Link href="/contact" className={`text-sm font-medium ${textColor} ${hoverColor} transition-colors`}>
             Contact
           </Link>
         </nav>

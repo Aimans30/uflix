@@ -32,6 +32,11 @@ body {
   font-family: var(--font-montserrat), 'Montserrat', system-ui, -apple-system, sans-serif;
 }
 
+/* Add top padding to main content areas to prevent navbar overlap */
+main:not(.homepage-main) {
+  padding-top: 140px; /* Top bar (80px) + Secondary nav (60px) */
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-playfair), 'Playfair Display', serif;
   font-weight: 700;
@@ -52,4 +57,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-marquee {
   animation: marquee 40s linear infinite;
+}
+
+/* Clerk modal z-index fix - ensure modals appear above navbar */
+.cl-modalBackdrop,
+.cl-modal {
+  z-index: 9999 !important;
+}
+
+.cl-internal-b3fm6y {
+  z-index: 9999 !important;
 }

@@ -3,62 +3,7 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const businessProducts = [
-  {
-    id: 101,
-    name: 'Executive Office Desk',
-    price: '₹45,999',
-    originalPrice: '₹89,000',
-    discount: '48%',
-    image: 'https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?w=600&q=80',
-    category: 'Office Furniture'
-  },
-  {
-    id: 102,
-    name: 'Ergonomic Office Chair',
-    price: '₹18,999',
-    originalPrice: '₹35,000',
-    discount: '46%',
-    image: 'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=600&q=80',
-    category: 'Office Furniture'
-  },
-  {
-    id: 103,
-    name: 'Conference Table Set',
-    price: '₹89,999',
-    originalPrice: '₹165,000',
-    discount: '45%',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
-    category: 'Meeting Rooms'
-  },
-  {
-    id: 104,
-    name: 'Reception Desk',
-    price: '₹52,999',
-    originalPrice: '₹98,000',
-    discount: '46%',
-    image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&q=80',
-    category: 'Reception'
-  },
-  {
-    id: 105,
-    name: 'Modular Workstation',
-    price: '₹35,999',
-    originalPrice: '₹68,000',
-    discount: '47%',
-    image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=600&q=80',
-    category: 'Workstations'
-  },
-  {
-    id: 106,
-    name: 'Executive Lounge Sofa',
-    price: '₹65,999',
-    originalPrice: '₹125,000',
-    discount: '47%',
-    image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&q=80',
-    category: 'Lounge'
-  }
-];
+const businessProducts: any[] = [];
 
 const caseStudies = [
   {
@@ -181,40 +126,53 @@ export default function BusinessPage() {
               <p className="text-lg text-neutral-dark max-w-3xl mx-auto">Handpicked furniture designed for productivity, comfort, and style</p>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {businessProducts.map((product) => (
-                <div key={product.id} className="group bg-white rounded-lg overflow-hidden border border-border hover:shadow-2xl transition-all duration-300">
-                  <div className="relative h-64 overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    {product.discount && (
-                      <span className="absolute top-4 left-4 bg-accent text-white px-4 py-2 rounded-md text-sm font-bold shadow-lg">
-                        {product.discount} Off
-                      </span>
-                    )}
-                    <span className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs font-semibold">
-                      {product.category}
-                    </span>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-accent transition-colors">{product.name}</h3>
-                    <div className="flex items-baseline gap-3 mb-4">
-                      <span className="text-2xl font-bold text-foreground">{product.price}</span>
-                      {product.originalPrice && (
-                        <span className="text-base text-neutral-dark line-through">{product.originalPrice}</span>
-                      )}
-                    </div>
-                    <Link href="/contact" className="block w-full text-center bg-accent hover:bg-secondary text-white py-3 rounded-md font-semibold transition-colors">
-                      Request Quote
-                    </Link>
-                  </div>
+            {businessProducts.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="text-gray-400 text-6xl mb-4">
+                  📦
                 </div>
-              ))}
-            </div>
+                <h3 className="text-xl font-semibold text-gray-600 mb-2">No Business Products Available</h3>
+                <p className="text-gray-500">Contact us for custom business furniture solutions!</p>
+                <Link href="/contact" className="inline-block mt-4 bg-accent hover:bg-secondary text-white px-6 py-3 rounded-md font-semibold transition-colors">
+                  Contact Sales Team
+                </Link>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {businessProducts.map((product) => (
+                  <div key={product.id} className="group bg-white rounded-lg overflow-hidden border border-border hover:shadow-2xl transition-all duration-300">
+                    <div className="relative h-64 overflow-hidden">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      {product.discount && (
+                        <span className="absolute top-4 left-4 bg-accent text-white px-4 py-2 rounded-md text-sm font-bold shadow-lg">
+                          {product.discount} Off
+                        </span>
+                      )}
+                      <span className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-foreground px-3 py-1 rounded-md text-xs font-semibold">
+                        {product.category}
+                      </span>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold mb-3 group-hover:text-accent transition-colors">{product.name}</h3>
+                      <div className="flex items-baseline gap-3 mb-4">
+                        <span className="text-2xl font-bold text-foreground">{product.price}</span>
+                        {product.originalPrice && (
+                          <span className="text-base text-neutral-dark line-through">{product.originalPrice}</span>
+                        )}
+                      </div>
+                      <Link href="/contact" className="block w-full text-center bg-accent hover:bg-secondary text-white py-3 rounded-md font-semibold transition-colors">
+                        Request Quote
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 

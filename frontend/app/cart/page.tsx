@@ -1,20 +1,60 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Breadcrumb from '@/components/Breadcrumb';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useCart } from '@/contexts/CartContext';
+import { getCart, updateCartItem, removeFromCart, clearCart } from '@/services/cartService';
+import { isAuthenticated } from '@/services/authService';
 
 export default function CartPage() {
-  const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
+  const router = useRouter();
+  const [cart, setCart] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
+  const fetchCart = async () => {
+    try {
+      const data = await getCart();
+      setCart(data.data?.items || []);
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const parsePrice = (priceStr: string) => {
     return parseInt(priceStr.replace(/[^0-9]/g, ''));
   };
 
-  const subtotal = cart.reduce((sum, item) => sum + (parsePrice(item.price) * item.quantity), 0);
+  const updateQuantity = async (productId: string, quantity: number) => {
+    try {
+      await updateCartItem(productId, quantity);
+      fetchCart();
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+    }
+  };
+
+  const handleRemoveItem = async (productId: string) => {
+    try {
+      await removeFromCart(productId);
+      fetchCart();
+    } catch (error) {
+      console.error('Error removing item:', error);
+    }
+  };
+
+  const subtotal = cart && cart.length > 0 
+    ? cart.reduce((sum, item) => sum + (parsePrice(item.price) * item.quantity), 0)
+    : 0;
   const shipping = subtotal > 15000 ? 0 : 500;
   const total = subtotal + shipping;
 
@@ -64,7 +104,7 @@ export default function CartPage() {
                             {item.name}
                           </Link>
                           <button
-                            onClick={() => removeFromCart(item.id)}
+                            onClick={() => handleRemoveItem(item.id)}
                             className="text-neutral-dark hover:text-red-600 transition-colors"
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

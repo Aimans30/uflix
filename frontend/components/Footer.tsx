@@ -49,17 +49,18 @@ export default function Footer() {
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2">
               <li className="text-gray-300">
+                <span className="block text-sm font-medium mb-1">Address</span>
+                <span className="text-sm">B-71, Sector - 80<br />Gautam Budh Nagar, 201306<br />India</span>
+              </li>
+              <li className="text-gray-300">
                 <span className="block text-sm font-medium mb-1">Phone</span>
-                <a href="tel:+911204911871" className="hover:text-accent transition-colors">+91 120 491 1871</a>
+                <a href="tel:01204911871" className="hover:text-accent transition-colors">0120 491 1871</a>
                 <br />
                 <a href="tel:+917303836300" className="hover:text-accent transition-colors">+91 730 383 6300</a>
               </li>
               <li className="text-gray-300">
                 <span className="block text-sm font-medium mb-1">Email</span>
                 <a href="mailto:ebusiness@uflix.co.in" className="hover:text-accent transition-colors">ebusiness@uflix.co.in</a>
-              </li>
-              <li className="text-gray-300 text-sm">
-                Mon-Sat, 10 AM - 7 PM
               </li>
             </ul>
           </div>
@@ -74,7 +75,10 @@ export default function Footer() {
               Privacy Policy
             </Link>
             <Link href="/terms" className="text-gray-400 hover:text-accent text-sm transition-colors">
-              Terms of Service
+              Terms & Conditions
+            </Link>
+            <Link href="/refund" className="text-gray-400 hover:text-accent text-sm transition-colors">
+              Refund Policy
             </Link>
           </div>
         </div>
